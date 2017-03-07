@@ -1,0 +1,129 @@
+terms of reference  MyProjectTEST
+
+План:
+        	 ЧАСТЬ 1
+Раздел №
+1)	Создание БД и таблиц БД
+2)	HTML страница 1 (описание теста и правила) создание контроллера. (index.jsp)
+3)	HTML страница 2 (ввод ключа для начала теста) содание контроллера, создание одноразовой ссесии , заполнение БД с одноразовым ключем. (enter_page_for_candidate)
+4)	HTML страница 3 (тест) создать таймер, создать контроллер, заполнение БД с ответами кандидата с данным уникальным ключем. (test_for_candidate)
+5)	HTML страница 4 (страница с ответом о пройденом тесте) создать контроллер.(test_completed)
+
+
+   ЧАСТЬ 2
+
+6)	HTML страница 5 (Вход в систему ответов «Кандидатов») создание контроллера, создание длительной ссесии. (login_admin)
+7)	HTML страница 6 (страница с меню) Контроллер, проверка на актуальность ссесии, кнопка logout. (main_menu)
+8)	HTML страница 7 (страница для подключения к mail серверу) контроллер, проверка актуальности ссесии, кнопка logout, redirect в menu. (email_settings)
+9)	HTML страница 8 (отправка письма с ключем + шаблон) контроллер, проверка актуальности ссесии, кнопка logout, redirect в menu. (email_sender)
+10)	HTML страница 8,1 (статус письма) проверка актуальности ссесии (validation.propeties)
+11)	  HTML страница 9 (отображение всех кандидатов, кликабельные поля ) контроллер, redirect в
+  menu, проверка актуальности ссесии. (candidate_table)
+12)	HTML страница 10 (ТЕСТЫ) добавление , удаление, редактирование тостов и вариантов ответа.
+13)	HTML страница 11 (подробнее с страницы 9, результат, варианты ответов кандидата.) контроллер, проверка актуальности ссесии кнопка logout, redirect в menu, redirect в отобразить всех кандидатов. (candidate_results)
+
+
+ЧАСТЬ 1
+РАЗДЕЛ 1	Создание БД и таблиц БД
+Схема:
+
+
+Описание таблиц :
+
+1)Candidate – для хранения кандидатов и ключей доступа.
+2)Cnadidate_ansvers – для хранения ответов
+SQL (формирование таблиц)
+Table candidate :
+CREATE TABLE `candidate` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+`email` varchar(255) NOT NULL,
+  `key` varchar(255) NOT NULL,
+`true_false` ENUM('true', 'false') NOT NULL DEFAULT 'false',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+Table candidate_ansvers :
+CREATE TABLE `candidate_ansvers` (
+  `id` int(11) NOT NULL,
+  `n_question` int(11) NOT NULL,
+  `ansvers` varchar(255) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+Тесты(CRUD) :
+Table questions :
+CREATE TABLE `questions` (
+  `n_question` int(11) NOT NULL AUTO_INCREMENT,
+  `question` varchar(255) NOT NULL,
+  PRIMARY KEY (`n_question`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+Table response_options :
+CREATE TABLE `response_options` (
+  `n_question` int(11) NOT NULL,
+  `response_options` varchar(255) NOT NULL,
+  `true_false` ENUM('true', 'false') NOT NULL DEFAULT 'false'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+Spring security (для прав входа админа) :
+
+-- Table: users
+CREATE TABLE users (
+  id       INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL
+)
+  ENGINE = InnoDB;
+
+-- Table: roles
+CREATE TABLE roles (
+  id   INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL
+)
+  ENGINE = InnoDB;
+
+-- Table for mapping user and roles: user_roles
+CREATE TABLE user_roles (
+  user_id INT NOT NULL,
+  role_id INT NOT NULL,
+
+  FOREIGN KEY (user_id) REFERENCES users (id),
+  FOREIGN KEY (role_id) REFERENCES roles (id),
+
+  UNIQUE (user_id, role_id)
+)
+  ENGINE = InnoDB;
+
+-- Insert data
+
+INSERT INTO users VALUES (1, 'pidhornyi', 'qwerty');
+
+INSERT INTO roles VALUES (1, 'ROLE_USER');
+INSERT INTO roles VALUES (2, 'ROLE_ADMIN');
+
+INSERT INTO user_roles VALUES (1, 2);
+
+
+РАЗДЕЛ 2 (HTML страница №1 (описание теста и правила) создание контроллера.)
+1)	Создание класса контроллера с именем ()
+2)	СОздание HTML страницы с именем (preinfo)
+
+РАЗДЕЛ 3 (HTML страница 2 (ввод ключей для начала теста) содание контроллера, создание одноразовой ссесии , заполнение БД с одноразовым ключем.)
+1)	Создание класса контроллера с именем ()
+2)	Проверка данных (key, fio)
+3)	Заполнение БД (Access_key)
+РАЗДЕЛ 4 (HTML страница 3 (тест) создать таймер, создать контроллер, заполнение БД с ответами кандидата с данным уникальным ключем.)
+1)	Создание класса контроллера с именем ()
+2)	Создание Одноразовой ссесии
+3)
+РАЗДЕЛ 5 (HTML страница 4 (страница с ответом о пройденом тесте) создать контроллер.)
+ЧАСТЬ 2 (Админка)
+РАЗДЕЛ 6 (HTML страница 5 (Вход в систему ответов «Кандидатов») создание контроллера, создание длительной ссесии.)
+РАЗДЕЛ 7 (HTML страница 6 (страница с меню) Контроллер, проверка на актуальность ссесии, кнопка logout.)
+РАЗДЕЛ 8 (HTML страница 7 (страница для подключения к mail серверу) контроллер, проверка актуальности ссесии, кнопка logout, redirect в menu.)
+РАЗДЕЛ 9 (HTML страница 8 (отправка письма с ключем + шаблон) контроллер, проверка актуальности ссесии, кнопка logout, redirect в menu.)
+РАЗДЕЛ 10 (HTML страница 8,1 (статус письма) проверка актуальности ссесии)
+РАЗДЕЛ 11 (HTML страница 9 (отображение всех кандидатов, кликабельные поля ) контроллер, redirect в menu, проверка актуальности ссесии.)
+РАЗДЕЛ 12 (HTML страница 10 (подробнее с страницы 9, результат, варианты ответов кандидата.) контроллер, проверка актуальности ссесии кнопка logout, redirect в menu, redirect в отобразить всех кандидатов.)
